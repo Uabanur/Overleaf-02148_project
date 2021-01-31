@@ -1,0 +1,34 @@
+\documentclass[10pt, oneside]{book} 
+
+%Set to 'print' for printed version, use 'net' for online version
+\def\thesisversion{print}
+
+\usepackage{template/LukeThesis}                             %Import Thesis base style
+\def\thesisauthor{
+Jens Carl Moesgård Eschen, s151952\\
+Mikkel Clausen Knudsen, s154666\\
+Roar Nind Steffensen, s144107
+}                     %Author
+
+\def\thesistitle{Team 10 Game\\
+{\small - 02148 Introduction to Coordination in Distributed Applications -}
+}               %Title
+\def\thesishandin{submission date}                       %Submission date (Day-Month}
+\def\thesisdegree{Project}                              %Degree ('B.Eng', 'B.Sc.', 'M.Sc.' or 'PhD')
+\def\thesisyear{2018}                               %Submission year
+\def\thesisnumber{}                             %DTU-IMM Serial number (do not include year)
+\def\thesisISSN{}                          %ISSN number
+\def\thesiskeywords{}  %PDF keywords
+\derivethesisprops                                  %Derive dependent properties
+%
+%==================================================================================================
+% SECTION NUMBERING SETUP
+%==================================================================================================
+\setcounter{tocdepth}{2}                            %2 adds sections up to subsections
+\setcounter{secnumdepth}{3}                         %Subsubsections get a number when this is 3
+%
+%==================================================================================================
+% THESIS STRUCTURE  (Modifiy to include more chapters etc)
+%==================================================================================================
+
+\usepackage{float}

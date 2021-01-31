@@ -1,0 +1,109 @@
+\chapter{Analysis}
+% (max 4 pages)
+
+\section{Requirements}
+% What are you promising that the project does? That it: which features/properties does it provide? This section is very important. Give names to each of the requirements.
+% 
+% The features this project / program provides are:
+% 
+% - User interfaces which are easy to navigate for the client
+% - A multiplayer shooting game running at 30+ fps given a decent network connection
+% - The possibility to create several different rooms / platforms to play, using the same map template
+% - Robustness in the form of: the game/server will not be dragged down by a player with slow connection
+% - Full overview for the server of players and rooms
+% - An intuitive gaming experience given by collision detection and lighting.
+% - A fair game, given that players themselves cannot make themselves over powered. The server controls gamestates and logic.
+% 
+% 
+\textsc{Team 10 Game} promises the user an array of features and properties that can be seen in table \ref{tab:Team10Game}. 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{p{53mm}p{53mm}}
+        \multicolumn{1}{c}{\textbf{Features}}  &  \multicolumn{1}{c}{\textbf{Properties}}  \\
+        \hline 
+        A \textbf{lobby UI} for connecting to a hosting server, setting up a new game room or joining other running rooms. 
+        
+        & The \textbf{lobby UI} is easy and intuitive to navigate and lets the player get into a game as fast as possible. \\
+        
+        On the \textbf{lobby UI} the user can see what other players are in the lobby and what rooms are currently being hosted by the server. 
+        
+        & The displayed information and available connection options can be updated continously to show real-time changes in the player-base.\\ 
+        \hline
+        
+        
+        A real-time fast-phased multiplayer free-for-all deathmatch-styled shooter, i.e; \textbf{a core game}. 
+        &The \textbf{core game} runs at 30+ Frames Per Second and supports several players playing together in the same room with low latency over LAN connections. \\
+        
+        Informative \textbf{in-game overlay UI} that displays: 
+        \begin{itemize}
+            \item[$\star$] the player's current health.
+            \item[$\star$] his/her's username, and the room name.
+            \item[$\star$] the current FPS performance of the application.
+            \item[$\star$] the player's KDR and the leading player of the game.
+        \end{itemize} 
+        and in addition shows a \textbf{chat} that the player can interact with to communicate with other players in the game room. 
+        
+        & \textbf{Intuitive simulated physics} provided by a robust collision detection system for both body-to-wall and bullet-to-body. 
+        
+        \textbf{Custom maps} made possible by dynamically loaded map-templates. 
+        
+        The \textbf{core game}'s state is controlled and calculated by the server using an server-authorative approach that greatly reduces cheating vulnerability.  \\
+        
+        \hline
+        
+        A \textbf{server-side UI} for monitoring clients connected to the server and track their activity (what rooms they're in). 
+        
+        & The \textbf{server-side UI} should provide a clear overview for the hosting user to help track issues like performance drops. 
+    
+    \end{tabular}
+    
+    \caption{Features and the promised properties of those features in the \textsc{Team 10 Game}. }
+    \label{tab:Team10Game}
+\end{table}
+
+
+\section{Challenges} \label{sec:challenges}
+% Describe the key challenges in more detail
+\textbf{Synchronization}\\
+In a real-time game, keeping the players and the game logic synchronized is highly prioritized. In a scenario where e.g. a player shoots an enemy, the clients and server should agree in the individual positions, and the outcome of the event. For this reason it is important where the game logic is calculated / maintained, as a slow client should not be able to shoot an enemy at a location he left long ago. To avoid this, the server will be given full authority, and provide the game states to the clients. The main task for the clients, will therefore only be to render the game state and send actions/commands to the server.
+
+\textbf{Performance}\\
+One of the most challenging tasks in this project will be to get a good enough performance, to end with a playable game and a stable fps. The performance is highly tied to the delay when sending and receiving tuples between server and client, together with rendering the game itself. To maintain a good performance, we will focus on efficient use of tuplespaces (especially remote spaces), with regards to amount of information sent back and forth. The rendering of the game should have little influence on the fps, as graphics are not a main focus of this project, and should therefor not drag down the performance.
+
+\textbf{Collision detection}\\
+In order to make the game feel like a real shooter with free movement we have to consider at least two kinds of collision: wall-collision and bullet-collision. Using javaFX's \texttt{bound} properties, intersection can be used as collision detection with walls. Bullet collision is a bit different since shots aren't necessarily aligned with the axes. Instead, shots are modeled as a vector which enables us to detect collisions using vector algebra.       
+
+\textbf{Separation of spaces}\\
+When dealing with multiple games being hosted on the same server, a logistic problem occurs of how to keep logically independent data separated. Procedures connected to one running game shouldn't interfere with data from another game. This is essentially an architectural challenge and since we're using process-based programming using server replication techniques, partitioning each running game to its own thread might be a possible solution.
+
+
+\textbf{Security}\\
+Making a completely secure distributed application that operates using the internet is notoriously difficult. In our game, we primarily face two security challenges: \textbf{1)} cheating client applications, \textbf{2)} \textbf{availability} attacks on the server. The line between these is blurred, but in general cheating involves breach of \textbf{confidentiality} (on data like the position of players out of sight) and \textbf{integrity} (such as modifying enemy players health). Availability attacks on the server can be seen more as ordinary malicious behaviour rather than direct cheating since it often influences \textit{all} connected clients. Since there's no form of access control in the jSpace library, all of this has to be addressed on the application level.     
+
+\section{Tools, Techniques and Related Works} 
+% Are you re-using results, techniques, tools, libraries from others? Are you getting inspiration from some existing project? Acknowledge that and justify your choices. 
+% 
+% Server - Client scheme inspired by the networking from doom
+% 
+% Rendering is accomplished using JavaFX
+% 
+% The protocol for clients to find the server is inspired by Michael De May's blog on UDP broadcasting:
+% https://michieldemey.be/blog/network-discovery-using-udp-broadcast/
+% 
+% The architecture of the program is inspired by MVC and Inversion of Control
+% This makes it possible to create a generic skeleton able to accomodate any application by inversion of control, 
+% and separating the gui / view from the control flow by the MVC mindset. 
+% The model in this case is contained in the Shared classes, being sent back and forth between client and server.
+% 
+% 
+% During the development of the project, git and Intellij has been used extensively for concurrent development on different aspects of the project.
+% 
+The main tools used in the development of this project is intelliJ coupled with Git to deploy and distribute workload. For all graphical components we're using JavaFX and the application itself is scheduled to be coded with a Model-View-Controller (MVC) technique with Inversion of Control. The protocol for clients to find the server is inspired by Micheal De May's blog on UDP broadcasting\footnote{\href{https://michieldemey.be/blog/network-discovery-using-udp-broadcast/}{click here to view the blog post}.}.
+
+\subsection{Networking in Quake 3 and the Source Engine} \label{quake3source}
+The networking in \textsc{Team 10 Game} is based heavily on the famous multiplayer-networking architecture of Quake 3\footnote{\href{http://fabiensanglard.net/quake3/network.php}{click here for: article on the Quake 3 networking model}}. Its simplicity has made it an inspiration for many other multiplayer game developers. For example, an adaption of it is found Valve's flagship: the Source Engine, which is mother to critically acclaimed multiplayer shooters like Counter Strike: Global Offensive, Team Fortress 2 and Left 4 Dead\footnote{\href{https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking}{click here for: article on the Source Engine's Multiplayer Networking}}. 
+
+The key concept is to let the server keep track of a \textbf{Master Gamestate}: a data structure containing all information necessary for a client to play the game. The task for the server is then to \textbf{synchronize} this gamestate with all connected clients and update it according to input received from the clients (send in bundles called \textbf{commands}). The server processes commands and updates the gamestate at a constant rate, called the server's \textbf{tickrate}. The client applications are limited updates by this tickrate and it therefore has to be chosen carefully. 
+This model is an \textbf{server-authoritative} approach since the server validates all client packages before using them to update the gamestate and the server itself is the final judge of how the gamestate is going to be updated. This \textbf{server-authoritative} model is very robust since it act's like a pseudo-whitelist in preventing malicious behaviour from the clients. On the downside the server has to do all game-logic to update the Master Gamestate - but this is usually a lesser concern than preventing cheating. 
+
+An important thing to note about fast-phased multiplayer games is that minimizing \textbf{latency}\footnote{latency: the time it takes for a client to send a command, the server to process it into a new gamestate and finally send this update back to the client.} is essential, and therefore all these games use UDP instead of TCP. A large part of the networking model in both Quake 3 and the Source Engine is about compensating for lost packages and optimizing network performance. Briefly put, instead of broadcasting the Master Gamestate to all clients, a thing called \textbf{delta compression} is used to only send changes from the last acknowledged gamestate (stored in a "snapshot" buffer) to each individual client. Since pSpaces currently doesn't support UDP, this project is based solely upon TCP and this whole subject of dropped packages where not a concern. Still, \textsc{Team 10 Game} very much draws inspiration and implements a simplified TCP-version of the Quake 3 networking model.  

@@ -1,0 +1,19 @@
+\chapter{Summary}
+% (max 1 page)
+In this report, we will go through how we designed and implemented a game (\textsc{Team 10 Game}) using tuplespaces to create a networking model, which allowed us to run the game on multiple machines and play together. This lead to challenges, such as synchronization. These challenges are handled partly by implementing networking protocols between the server-side and client-side application, and partly by the use of certain data structures. The client simply renders the game while all game-logic is handled remotely by the server. 
+
+We opted only to have the most recent game information stored in the tuplespace, and as such ensuring synchronization between clients. As we wanted to make a more complete game-experience, we also implemented a lobby, in which players can create and join games, which we dubbed \textit{rooms}. When in the lobby, the clients communicate with the server through requests and responses, instead of the independent approach seen in the rooms. This, coupled with the fact that we wanted multiple rooms running simultaniously, lead us to create a multitude of tuplespaces. We opted for a model in which the lobby has its own tuplespace, and each room has its own tuplespace as well. 
+
+The server handles requests and sends responses through the lobby tuplespace, while the room process get commands from the clients and sends the updated state of the game through the room tuplespace. This approach resulted in a player-experience where the user can seamlessly go between rooms, while being unaffected by players in other rooms. 
+
+The resulting program became an enjoyable first-person multiplayer shooter game, with easily navigable UI's and an providing an intuitive user experience. The architecture of the programs made it easy to adjust and apply features/properties during project development.
+
+\chapter{Individual Contributions}
+% Briefly explain what each member of the team did
+% Example: Alice was mostly involved in the design of the API XX, Bob was the main responsible for the implementation of the API XX, etc.
+We met every day and worked together. This resulted in a product where everyone heavily influenced each part of both the program and the report. Because of this, it can truly be said that everyone worked on everything, and any distribution of responsibility would serve only as a formality.
+
+\textbf{Link to gitlab project:}
+\begin{center}
+\href{https://gitlab.gbar.dtu.dk/s154666/02148_project.git}{\texttt{https://gitlab.gbar.dtu.dk/s154666/02148\_project.git}}
+\end{center}

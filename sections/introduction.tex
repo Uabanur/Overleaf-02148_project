@@ -1,0 +1,86 @@
+ \chapter{Introduction} \label{intro}
+ % (max 2 pages)
+\section{Aim of the project}
+% What is the project about?
+The aim of our project was to implement a multiplayer shooter game in Java using tuplespaces, with an organized infrastructure providing high scalability and flexibility.
+%In order to do this, we planned to setup a server-side and client-side application, and then have the client communicate with the server in real time. 
+
+\section{Main challenges}
+% What were the main challenges of such a project?
+% 
+% Synchronization of the game and rooms
+%
+% Dynamical creation of tuplespaces
+% 
+% Performance / speed (fps + connection)
+% 
+% Collision detection, bullets not rendered and bullet collisions
+% 
+% Program architecture / design
+% 
+% Security
+
+The challenges for this project, will both be influenced by nature of any distributed application, and the performance demands of a first person multiplayer game. The main challenges in focus are listed as follows:
+
+\begin{itemize}
+    \item Synchronization between clients and server
+    \item Server-side and client-side performance
+    \item Realistic and immersive user experience
+    \item Seperation of information
+    \item Security
+\end{itemize}
+
+
+\section{Project Proposal}
+% Briefly describe the project and how the challenges are addressed?
+
+% 
+% Synchronization: real time action, a player out of sync with server and other players should not ruin the game for the rest. A laggy player should not stop/halt the server/other players.
+% 
+% Dynamical tuplespaces: room authority, partitioning of information - dividing tuple spaces up into meaningful supsets
+% 
+% 
+% Bullet rendering is a consequence of missing gamestates and therefore a synchronization problem. Collision detection is a pure rendering problem, but essential for the game.
+% 
+% 
+% Architecture / design: Client / server seperation and communacation protocals. Who has the authority and the final vote.
+% 
+% Security: who can read what information (confidentiality). Who can put new information / manipulate existing information (Integrity). Who can remove information. When is needed information ready and connection time-frames (Availability).
+
+% In this project, we will implement a real-time multiplayer shooter game, where players can run around in a 3D environment through a first-person perspective. The goal is to shoot the other players, which can be achieved through the laser cannon each player has equipped.
+
+The resulting game will be a real-time multiplayer shooter game, where players can run around in a 3D environment through a first-person perspective. The project will result in two applications; a server application and a client application respectively. Our approach will be based on process-oriented programming with a client-server pattern for coordination and control flow. The server application will be able to accommodate several games running concurrently, using a server replication strategy to separate the individual games.
+
+With this project in mind, the first major obstacle is \textbf{synchronization}. If players are out of sync, one player would be able to act before another, thus gaining an inherent advantage. Likewise, it would hurt the game experience if every player had to wait because one player has a bad internet connection or a slow computer. Because of this, the program should be as lightweight as possible, so as to not bottleneck the game through \textbf{client-side} or \textbf{server-side performance}. Likewise, avoiding a \textbf{networking bottleneck} is also a challenge, as sending too much data between server and client, too often, slows down both sides. Optimizing these will be key to providing a better game experience.
+
+In order to get a \textbf{realistic} feel and an \textbf{immersive} experience, free 360-degree movement is necessary. This raise more challenges, however, in the form of collision with terrain and bullets. 
+
+With multiple games running concurrently, the data/information associated with the individual games is independent, and should be \textbf{separated}. This must be handled and maintained at runtime, as new games will be created dynamically by players. 
+
+%We also wanted to have multiple games running on a single server so players could start their own game. This leads us to the challenge of \textbf{creating new tuplespaces dynamically} whenever a new game is created on the server.
+
+%As with any other online application, security has to be taken into consideration. The main challenge we undertook here was not allowing players to alter server-side data, so as to \textbf{not cheat}.
+
+% For synchronization, we opted for a simple approach. The server would only put up the latest data related to the game, and remove older states of the game. As only the newest state is available, when a player synchronizes with the server, they get the most current game state no matter how long ago they synchronized last. This then ensures that each player is up-to-date whenever they synchronize with the server.
+
+% Sending all player information every tick of the server and client puts a heavy load on the socket of the server. In order to compensate for this, we minimized other information exchange between client and server. This resulted in a lower update-rate of features such as the in-game chat.
+
+% Concerning security, we opted for an authoritative server structure. This means anything the user is trying to do has to go through the server for control first. This is a simple way of ensuring a basic level of security on server-side data.
+
+% Dynamically creating tuplespaces was simply handled by creating a new tuplespace whenever necessary, and making the name of it be readable by clients. 
+
+
+
+% As we aimed to implement a real-time game, the first major obstacle was \textbf{synchronization}. If players are de-synchronized, one player would be able to act before another, thus gaining an inherent advantage. Likewise, it would hurt the game experience if every player had to wait because one player has a bad internet connection or a slow computer. 
+
+% Because of this, the program should be as lightweight as possible, so as to not bottleneck the game through \textbf{client-side performance}. Likewise, avoiding a \textbf{networking bottleneck} is also a challenge, as sending too much data between server and client slows down both sides of the program. Optimizing these were key to providing a better game experience.
+
+% We wanted to create a first person shooting game, and for this, free 360-degree movement was necessary for the experience we wanted to provide. This surfaced more challenges, however, in the form of \textbf{collision} with terrain and bullets. 
+
+% We also wanted to have multiple games running on a single server so players could start their own game. This leads us to the challenge of \textbf{creating new tuplespaces dynamically} whenever a new game is created on the server.
+
+% As with any other online application, security had to be taken into consideration. The main challenge we undertook here was not allowing players to alter server-side data, so as to \textbf{not cheat}.
+
+\section{Structure of the Report}
+% How is this report organised, i.e. what do I find in each section?
+In this report, we will start out by analyzing the challenges and tools related to the project at hand. Afterwards, we will describe how we designed our program around these, focusing mainly on how the clients communicate with the server. Afterwards, we will evaluate the project, ie. how successful we were in overcoming the challenges and implementing our requirements, as well as pSpaces, the tool used for communicating through tuplespaces. Finally we will conclude on the project as a whole, and reflect upon the strenghts and weaknesses of the program. 

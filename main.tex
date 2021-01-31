@@ -1,0 +1,55 @@
+\input{template/header.tex}
+
+\usepackage[english]{babel}
+ 
+\begin{document}
+%------------------------
+%Pre-frontmatter material
+%------------------------
+\prefrontmatter
+%--------------------
+%Frontmatter material
+%--------------------
+\frontmatter
+\pagenumbering{roman}                               %Set frontmatter numbering style
+
+\input{sections/summary.tex}
+
+\markboth{}{}                                       %Set headings (left)(right)
+
+%------------------
+% Table of contents
+%------------------
+\input{template/toc.tex}
+%-------------
+% Main content
+%-------------
+\mainmatter
+
+\input{sections/introduction.tex}
+
+\input{sections/analysis.tex}
+
+\input{sections/design-implementation.tex}
+
+\input{sections/evaluation.tex}
+
+\input{sections/conclusion.tex}
+
+\appendix
+
+\input{appendix.tex}
+% Extra stuff: code, figures, etc.
+
+%-----------
+% Backmatter
+%-----------
+\backmatter
+%\chaptermark{Bibliography}
+%\renewcommand{\sectionmark}[1]{\markright{#1}}
+%\sectionmark{Bibliography}
+%\addcontentsline{toc}{chapter}{Bibliography}        %Force addition of Bibliography to TOC
+%\bibliographystyle{alpha}                           %Use alpha codes for references
+%\bibliography{References}                           %Bibliography file called
+\end{document}
+% % % EOF % % %

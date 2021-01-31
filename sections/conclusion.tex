@@ -1,0 +1,41 @@
+\chapter{Conclusion}
+% (max 3 pages)
+\section{Summary}
+% What have you done?
+In this project, we implemented a real time shooter which uses synchronization through tuplespaces. We accomplished this, by implementing independent applications for the server and client respectively, communicating through defined protocols. Using this structure, we implemented several features besides the game itself, such as a chat and a lobby. For each of these we used different methods of synchronization, specified to the purpose it had to fulfill. The rooms were synchronized by maintaining the commands and gamestate in the tuplespace. This ensured that whenever a client or server were to update their internal gamestate, they would get the most recent information. The chat was synchronized by putting messages into the tuplespace, which acts on a FIFO basis, resulting in messages being read in the correct order, by default. The lobby is synchronized through requests and responses. This ensured a higher level of security on the server, and also made the lobby have high scalability.
+
+\section{Strengths}
+% Which are the strong points of your project?
+
+The strong points of our program lie in our synchronization of a game state among the clients in a room. Even with our \textbf{server authoritative} approach, where everything is checked and calculated by the server, the player still experiences a low latency in-game. 
+
+Another strong point is the scalability of our program. As every room runs on its own thread, a computer can run a higher number of rooms before computing power becomes an issue. At the same time, the lobby runs on a separate thread from all the rooms, and as such, new users can join or create rooms without being affected by the server running rooms.
+
+Clients are not able to alter the master gamestate on the server's \texttt{room} process, keeping the integrity of the master gamestate intact. 
+
+With rooms running in different threads, a room crashing will not kill other rooms. 
+
+\section{Weaknesses and Threats}
+% Which are the weak points of your project?
+% Is there something that could question the validity of your project?
+
+One weakness in our security occurs when a user logs on to the server and attempts to enter the lobby. 
+
+The client application checks if the provided username is unique, and registers itself if verified. This is, of course, a security concern, as a malicious user could simply empty users from the tuplespace and not query them as intended. 
+
+Another concern occurs through the mutual exclusion lock tied to the registration protocol. If a malicious user simply takes the lock without releasing it again, no other user would be able to log in.
+
+\section{Opportunities}
+% How could the work be extended to deal with weaknesses and threats? What else could be done starting from the strengths of your project?
+
+In regards to the weakness that occurs when creating users, the protocol could be converted to the same format as every other client-server interaction in the lobby. The client requests the server to create a user with the given name, and the server registers it and responds with an \texttt{ack}. This would also allow us to move the users to a local list within the server, thus also preventing malicious users from removing users from the lobby. 
+%This, in turn, would require us to change how we display users inside the lobby, but only to the same protocol we use for other interactions: request follow by \texttt{ack}/\texttt{nack}.
+
+For the synchronization, we could shorten the input-lag even further by applying game logic on both the server-side and client-side. This would require the clients to only synchronize the gamestate with the server by validating the locally calculated gamestate, instead of displaying what the server presents. This would also allow us to implement the \textbf{delta compression} described in section \ref{quake3source} more easily. On a further note on this, jSpaces could be extended to support UDP to get drastically lower latencies when combined with the full Quake 3 Networking Model. 
+
+\section{Lessons learnt}
+% What are the main lessons you learnt while doing this project?
+
+Through this project we learned how to have programs interact over a network using tuplespaces. We have also learned how to make protocols effective enough, so that we could have a program running in real-time, while being heavily dependent on client-server interaction. 
+
+With respect to distributed applications, security is learned to be a notoriously difficult task in general.
